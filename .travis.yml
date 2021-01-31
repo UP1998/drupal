@@ -32,6 +32,7 @@ install:
     - sleep ${SLEEP_TIME}
     - sleep ${SLEEP_TIME}
     - sleep ${SLEEP_TIME}
+    - sleep ${SLEEP_TIME}
     - docker-compose logs config
     - docker-compose logs poc
     - docker-compose logs ids
