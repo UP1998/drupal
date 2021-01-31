@@ -1,0 +1,45 @@
+language: bash
+services:
+    - docker
+env:
+    - DOCKER_COMPOSE_VERSION="1.25.4" SLEEP_TIME=50 PORT=8080 DOMAIN_NAME="web"
+
+before_install:
+    - sudo rm /usr/local/bin/docker-compose
+    - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+    - chmod +x docker-compose
+    - sudo mv docker-compose /usr/local/bin
+
+addons:
+    hosts:
+        - web
+install:
+    #- sudo cat /etc/docker/daemon.json
+    #- ping https://mirror.gcr.io
+    #- sudo sed -i 's/mirror.gcr.io/docker.mirrors.ustc.edu.cn/g' /etc/docker/daemon.json
+    #- sudo cat /etc/docker/daemon.json
+    #- sudo systemctl daemon-reload
+    #- sudo service docker restart
+    #- docker-compose up -d
+    #- docker ps
+    #- docker ps -a
+    #- sleep 20
+    #- docker-compose logs server
+    - docker-compose up -d
+    - docker ps
+    - sleep ${SLEEP_TIME}
+    - sleep ${SLEEP_TIME}
+    - sleep ${SLEEP_TIME}
+    - sleep ${SLEEP_TIME}
+    - sleep ${SLEEP_TIME}
+    - docker-compose logs config
+    - docker-compose logs poc
+    - docker-compose logs ids
+
+script:
+    #- curl -vv -L http://${DOMAIN_NAME}:${PORT}
+    - sudo bash check_config.sh
+    - sudo bash check_poc.sh
+    - sudo bash check_ids.sh
+    - sudo cat docker-compose.yml
+    - sudo cat /etc/hosts
