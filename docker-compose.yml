@@ -1,0 +1,46 @@
+version: '2'
+services:
+  web:
+    image: wanghaoxu/drupalweb
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    container_name: web
+  db:
+    image: wanghaoxu/drupaldb
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: cucnb
+    container_name: db
+    ports:
+      - "3306:3306"
+  config:
+    build:
+      context: .
+      dockerfile: Dockerfile_config
+    container_name: config
+    depends_on:
+      - web
+      - db
+  poc:
+    build:
+      context: .
+      dockerfile: Dockerfile_poc
+    container_name: poc
+    depends_on:
+       - db
+       - web
+       - config
+  ids:
+    image: fixel/zeek:latest
+    network_mode: 'service:web'
+    container_name: ids
+    volumes:
+      - ./ids/logs:/usr/local/zeek/logs
+      - ./ids/policy_detect_rce:/usr/local/zeek/share/zeek/policy/detect_rce
+    command: -C -i eth0 /usr/local/zeek/share/zeek/policy/detect_rce
+    tty: true
+    #restart: always

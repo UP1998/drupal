@@ -1,0 +1,9 @@
+FROM python:3.8-buster
+
+COPY poc/poc.py ./poc.py
+COPY poc/poc.sh ./poc.sh
+COPY poc/requirements_poc.txt ./requirements_poc.txt
+
+RUN pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple -r /requirements_poc.txt
+RUN chmod +x poc.py
+CMD bash poc.sh
