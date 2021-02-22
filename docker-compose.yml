@@ -1,7 +1,10 @@
 version: '2'
 services:
   web:
-    image: wanghaoxu/drupalweb
+#    image: wanghaoxu/drupalweb
+    build:
+      context: .
+      dockerfile: Dockerfile_web
     restart: always
     ports:
       - "8080:80"
