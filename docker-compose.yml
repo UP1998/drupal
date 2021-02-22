@@ -18,8 +18,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: cucnb
     container_name: db
-    ports:
-      - "3306:3306"
+#    ports:
+#      - "3306:3306"
   config:
     build:
       context: .
