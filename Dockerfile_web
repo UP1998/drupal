@@ -1,0 +1,4 @@
+FROM wanghaoxu/drupalweb
+
+COPY logo.png .
+RUN chmod 777 logo.png
